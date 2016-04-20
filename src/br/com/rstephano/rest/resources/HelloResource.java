@@ -18,7 +18,7 @@ public class HelloResource {
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	public String getIt() {
-		throw new WebException("TESTE", 400, request);
+		throw new WebException("test", 400, request);
 	}
 
 }
