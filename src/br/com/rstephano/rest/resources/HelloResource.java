@@ -4,12 +4,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
-import br.com.rstephano.db.entities.Conto;
-import br.com.rstephano.db.repositories.ContoRepository;
-import br.com.rstephano.rest.exceptions.WebException;
+import br.com.rstephano.MessageBundleUtil;
 
 @Path("hello")
 public class HelloResource {
@@ -17,19 +18,15 @@ public class HelloResource {
 	@Context
 	private HttpServletRequest request;
 
-	private ContoRepository contoRepository;
-
 	public HelloResource() {
 		super();
-		contoRepository = new ContoRepository();
 	}
 
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	public String getIt() {
-		Conto conto = new Conto(null, "1", "teste", "Era uma vez...");
-		contoRepository.inserir(conto);
-		throw new WebException("test", 400, request);
+		Response response = Response.status(Status.CONFLICT).entity(MessageBundleUtil.getMessage(MessageBundleUtil.Key.EXCEPTIONS, request.getLocales(), "campo_obrigatorio", new String[]{"ffff"})).build();
+		throw new WebApplicationException(response);
 	}
 
 }

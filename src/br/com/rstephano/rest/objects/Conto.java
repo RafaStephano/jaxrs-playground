@@ -1,16 +1,25 @@
 package br.com.rstephano.rest.objects;
 
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 @XmlRootElement
 public class Conto {
 	@XmlElement(name = "id")
 	private String id;
 	@XmlElement(name = "autorId")
+	@NotNull
+	@NotEmpty
 	private String autorId;
+	@NotNull
+	@NotEmpty
 	@XmlElement(name = "titulo")
 	private String titulo;
+	@NotNull
+	@NotEmpty
 	@XmlElement(name = "conto")
 	private String conto;
 

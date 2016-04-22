@@ -21,7 +21,7 @@ public class ExceptionHandler implements ContainerResponseFilter {
 	public void filter(ContainerRequestContext requestContext,
 			ContainerResponseContext responseContext) throws IOException {
 		ContainerResponse res = (ContainerResponse) responseContext;
-		if (res.isMappedFromException() && res.getEntity() != null && ((String )res.getEntity()).startsWith("WebException: ")) {
+		if (res.isMappedFromException() && res.getEntity() != null && ((res.getEntity() instanceof String) && ((String )res.getEntity()).startsWith("WebException: "))) {
 			ContainerRequest req = (ContainerRequest) requestContext;
 			List<Locale> acceptableLanguages = req.getAcceptableLanguages();
 			Locale responseLocale = acceptableLanguages.get(0).getLanguage().trim().equals("*") ? Locale.ROOT : acceptableLanguages.get(0);

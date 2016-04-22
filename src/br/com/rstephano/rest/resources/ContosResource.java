@@ -3,6 +3,7 @@ package br.com.rstephano.rest.resources;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -28,7 +29,7 @@ public class ContosResource {
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Response incluir(Conto conto) throws URISyntaxException {
+	public Response incluir(@Valid Conto conto) throws URISyntaxException {
 		br.com.rstephano.db.entities.Conto contoDb = new br.com.rstephano.db.entities.Conto(null, conto.getAutorId(), conto.getTitulo(), conto.getConto());
 		contoRepository.inserir(contoDb);
 		conto.setId(contoDb.getId().toString());
