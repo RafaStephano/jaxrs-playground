@@ -14,7 +14,6 @@ public enum MongoResource {
 	INSTANCE;
 	private MongoClient mongoClient;
 	private Properties properties;
-	private Datastore dataStore;
 
 	private MongoResource() {
 		try {
@@ -28,9 +27,6 @@ public enum MongoResource {
 
 			if (mongoClient == null)
 				mongoClient = newClient();
-
-			if (dataStore == null)
-				dataStore = newDataStore();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -50,21 +46,10 @@ public enum MongoResource {
 		return new MongoClient(properties.getProperty("host"), Integer.valueOf(properties.getProperty("port")));
 	}
 
-	private Datastore newDataStore() {
+	public Datastore getDataStore() {
 		Morphia morphia = new Morphia();
 		morphia.mapPackage(properties.getProperty("entitiespackage"));
 		return morphia.createDatastore(mongoClient, properties.getProperty("database"));
 	}
-
-	public Datastore getDataStore() {
-		return dataStore;
-	}
-
-	// super();
-	// MongoClient mongoClient = new MongoClient("localhost", 27017);
-	// Morphia morphia = new Morphia();
-	// morphia.mapPackage("br.com.rstephano.db.entities");
-	// dataStore = morphia.createDatastore(mongoClient, "testesmongo");
-	// }
 
 }
