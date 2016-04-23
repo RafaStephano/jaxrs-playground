@@ -6,8 +6,6 @@ import java.util.Set;
 
 import javax.ws.rs.core.Application;
 
-import org.glassfish.jersey.server.ServerProperties;
-
 public class ApplicationJAXRS extends Application {
 
 	@Override

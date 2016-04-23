@@ -1,21 +1,18 @@
 package br.com.rstephano.db.repositories;
 
-import org.mongodb.morphia.Key;
+import org.bson.types.ObjectId;
 
-import br.com.rstephano.db.DB;
+import br.com.rstephano.db.MongoResource;
 import br.com.rstephano.db.entities.Conto;
 
 public class ContoRepository {
 
-	private DB db;
-
-	public ContoRepository() {
-		super();
-		db = new DB();
+	public void inserir(Conto conto) {
+		MongoResource.INSTANCE.getDataStore().save(conto);
 	}
 
-	public Key<Conto> inserir(Conto conto) {
-		return db.getDataStore().save(conto);
+	public Conto recuperar(ObjectId objectId) {
+		return MongoResource.INSTANCE.getDataStore().get(Conto.class, objectId);
 	}
 
 }
