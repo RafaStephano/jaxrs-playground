@@ -1,0 +1,16 @@
+package br.com.rstephano.rest.exceptions;
+
+import javax.ws.rs.core.Response;
+import javax.ws.rs.ext.ExceptionMapper;
+import javax.ws.rs.ext.Provider;
+
+@Provider
+public class ExceptionCatcher implements ExceptionMapper<Throwable> {
+
+	@Override
+	public Response toResponse(Throwable exception) {
+		exception.printStackTrace();
+		return null;
+	}
+
+}

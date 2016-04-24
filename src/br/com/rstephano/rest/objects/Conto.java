@@ -3,43 +3,34 @@ package br.com.rstephano.rest.objects;
 import java.util.Date;
 
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import br.com.rstephano.rest.objects.adapters.XmlDateAdapter;
 
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Conto {
-	@XmlElement(name = "id")
 	private String id;
-	@XmlElement(name = "autorId")
 	@NotNull
 	@NotEmpty
 	private String autorId;
-	@XmlElement(name = "titulo")
 	@NotNull
 	@NotEmpty
 	private String titulo;
-	@XmlElement(name = "conto")
 	@NotNull
 	@NotEmpty
 	private String conto;
-	@XmlElement(name = "dataCadastro")
 	@NotNull
 	@XmlJavaTypeAdapter(XmlDateAdapter.class)
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm.SSSZ")
 	private Date dataCadastro;
-
-	public Conto(String id, String autorId, String titulo, String conto, Date dataCadastro) {
-		super();
-		this.id = id;
-		this.autorId = autorId;
-		this.titulo = titulo;
-		this.conto = conto;
-		this.dataCadastro = dataCadastro;
-	}
 
 	public Conto() {
 		super();

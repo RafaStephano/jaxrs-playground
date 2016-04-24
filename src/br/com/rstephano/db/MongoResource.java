@@ -14,6 +14,7 @@ public enum MongoResource {
 	INSTANCE;
 	private MongoClient mongoClient;
 	private Properties properties;
+	private Datastore datastore;
 
 	private MongoResource() {
 		try {
@@ -27,6 +28,9 @@ public enum MongoResource {
 
 			if (mongoClient == null)
 				mongoClient = newClient();
+			
+			if (datastore == null)
+				datastore = newDataStore();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -46,10 +50,14 @@ public enum MongoResource {
 		return new MongoClient(properties.getProperty("host"), Integer.valueOf(properties.getProperty("port")));
 	}
 
-	public Datastore getDataStore() {
+	public Datastore newDataStore() {
 		Morphia morphia = new Morphia();
 		morphia.mapPackage(properties.getProperty("entitiespackage"));
 		return morphia.createDatastore(mongoClient, properties.getProperty("database"));
+	}
+	
+	public Datastore getDataStore() {
+		return this.datastore;
 	}
 
 }

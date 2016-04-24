@@ -9,8 +9,10 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
@@ -40,10 +42,28 @@ public class ContosResource {
 		validar(conto);
 		br.com.rstephano.db.entities.Conto contoDb = new br.com.rstephano.db.entities.Conto(null, conto.getAutorId(), conto.getTitulo(), conto.getConto(), conto.getDataCadastro());
 		contoRepository.inserir(contoDb);
-		conto.setId(contoDb.getId().toString());
+		conto.setId(contoDb.getId().toHexString());
 		conto.setDataCadastro(contoDb.getDataCadastro());
 		URI location = UriBuilder.fromPath("conto/{id}").build(contoDb.getId().toString());
 		return Response.status(Status.CREATED).entity(conto).location(location).build();
+	}
+
+	@GET
+	@Path("{id}")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public Response recuperar(@PathParam("id") String id) throws URISyntaxException {
+		br.com.rstephano.db.entities.Conto contoDb = contoRepository.recuperar(new ObjectId(id));
+		if (contoDb != null) {
+			Conto conto = new Conto();
+			conto.setId(contoDb.getId().toHexString());
+			conto.setAutorId(contoDb.getAutorId());
+			conto.setTitulo(contoDb.getTitulo());
+			conto.setConto(contoDb.getConto());
+			conto.setDataCadastro(contoDb.getDataCadastro());
+			return Response.status(Status.OK).entity(conto).build();
+		} else {
+			return Response.status(Status.NOT_FOUND).entity("").build();
+		}
 	}
 
 	@SuppressWarnings("unchecked")
