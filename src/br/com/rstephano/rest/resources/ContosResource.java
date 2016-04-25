@@ -2,6 +2,8 @@ package br.com.rstephano.rest.resources;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -24,6 +26,8 @@ import org.bson.types.ObjectId;
 
 import br.com.rstephano.db.repositories.ContoRepository;
 import br.com.rstephano.rest.objects.Conto;
+import br.com.rstephano.rest.objects.ValidationErrorDetail;
+import br.com.rstephano.rest.objects.ValidationErrorHeader;
 
 @Path("conto")
 public class ContosResource {
@@ -39,7 +43,7 @@ public class ContosResource {
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response incluir(Conto conto) throws URISyntaxException {
-		validar(conto);
+		validarCampos(conto);
 		br.com.rstephano.db.entities.Conto contoDb = new br.com.rstephano.db.entities.Conto(null, conto.getAutorId(), conto.getTitulo(), conto.getConto(), conto.getDataCadastro());
 		contoRepository.inserir(contoDb);
 		conto.setId(contoDb.getId().toHexString());
@@ -67,20 +71,23 @@ public class ContosResource {
 	}
 
 	@SuppressWarnings("unchecked")
-	private void validar(Conto conto) {
+	private void validarCampos(Conto conto) {
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		Validator validator = factory.getValidator();
 		Set<ConstraintViolation<Conto>> constraintViolations = validator.validate(conto);
 		if (constraintViolations.size() > 0) {
-			StringBuffer retorno = new StringBuffer();
 			ConstraintViolation<Conto>[] array = constraintViolations.toArray(new ConstraintViolation[constraintViolations.size()]);
+			ValidationErrorHeader validationErrorHeader = new ValidationErrorHeader();
+			validationErrorHeader.setClassName(Conto.class.getSimpleName());
+			List<ValidationErrorDetail> errorsDetails = new ArrayList<>();
 			for (int i = 0; i < array.length; i++) {
 				ConstraintViolation<Conto> constraintViolation = array[i];
 				String constraintFullName = constraintViolation.getConstraintDescriptor().getAnnotation().annotationType().toString();
 				String constraintName = constraintFullName.substring(constraintFullName.lastIndexOf(".") + 1);
-				retorno.append((i > 0 ? "|": "") + constraintViolation.getPropertyPath().toString() + "=" + constraintName);
+				errorsDetails.add(new ValidationErrorDetail(constraintViolation.getPropertyPath().toString(), constraintName));
 			}
-			Response response = Response.status(Status.BAD_REQUEST).entity(retorno.toString()).type(MediaType.TEXT_PLAIN).build();
+			validationErrorHeader.setErrors(errorsDetails);
+			Response response = Response.status(Status.BAD_REQUEST).entity(validationErrorHeader).build();
 			throw new WebApplicationException(response);
 		}
 	}
