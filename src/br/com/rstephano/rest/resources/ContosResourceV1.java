@@ -29,12 +29,12 @@ import br.com.rstephano.rest.objects.Conto;
 import br.com.rstephano.rest.objects.ValidationErrorDetail;
 import br.com.rstephano.rest.objects.ValidationErrorHeader;
 
-@Path("conto")
-public class ContosResource {
+@Path("v1/conto")
+public class ContosResourceV1 {
 
 	private ContoRepository contoRepository;
 
-	public ContosResource() {
+	public ContosResourceV1() {
 		super();
 		contoRepository = new ContoRepository();
 	}
