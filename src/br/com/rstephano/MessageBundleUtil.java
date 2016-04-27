@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 public class MessageBundleUtil {
 
 	public enum Key {
+		VALIDATIONS("br.com.rstephano.bundles.validations"),
 		EXCEPTIONS("br.com.rstephano.bundles.exceptions");
 
 		private String code;

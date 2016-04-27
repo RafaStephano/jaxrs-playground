@@ -26,6 +26,7 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.bson.types.ObjectId;
 
+import br.com.rstephano.MessageBundleUtil;
 import br.com.rstephano.db.repositories.ContoRepository;
 import br.com.rstephano.rest.objects.Conto;
 import br.com.rstephano.rest.objects.ValidationErrorDetail;
@@ -47,7 +48,7 @@ public class ContosResourceV1 {
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response incluir(Conto conto) throws URISyntaxException {
-		validarCampos(conto);
+		validarConto(conto);
 		br.com.rstephano.db.entities.Conto contoDb = new br.com.rstephano.db.entities.Conto(null, conto.getAutorId(), conto.getTitulo(), conto.getConto(), conto.getDataCadastro());
 		contoRepository.inserir(contoDb);
 		conto.setId(contoDb.getId().toHexString());
@@ -75,24 +76,29 @@ public class ContosResourceV1 {
 	}
 
 	@SuppressWarnings("unchecked")
-	private void validarCampos(Conto conto) {
-		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-		Validator validator = factory.getValidator();
-		Set<ConstraintViolation<Conto>> constraintViolations = validator.validate(conto);
-		if (constraintViolations.size() > 0) {
-			ConstraintViolation<Conto>[] array = constraintViolations.toArray(new ConstraintViolation[constraintViolations.size()]);
-			ValidationErrorHeader validationErrorHeader = new ValidationErrorHeader();
-			validationErrorHeader.setClassName(Conto.class.getSimpleName());
-			List<ValidationErrorDetail> errorsDetails = new ArrayList<>();
-			for (int i = 0; i < array.length; i++) {
-				ConstraintViolation<Conto> constraintViolation = array[i];
-				String constraintFullName = constraintViolation.getConstraintDescriptor().getAnnotation().annotationType().toString();
-				String constraintName = constraintFullName.substring(constraintFullName.lastIndexOf(".") + 1);
-				errorsDetails.add(new ValidationErrorDetail(constraintViolation.getPropertyPath().toString(), constraintName, constraintViolation.getMessageTemplate().replaceAll("\\{|\\}", "")));
-			}
-			validationErrorHeader.setErrors(errorsDetails);
-			Response response = Response.status(Status.BAD_REQUEST).entity(validationErrorHeader).build();
+	private void validarConto(Conto conto) {
+		if (conto == null) {
+			Response response = Response.status(Status.BAD_REQUEST).entity(MessageBundleUtil.getMessage(MessageBundleUtil.Key.VALIDATIONS, request.getLocales(), "objeto_requerido", new String[]{Conto.class.getSimpleName()})).build();
 			throw new WebApplicationException(response);
+		} else {
+			ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+			Validator validator = factory.getValidator();
+			Set<ConstraintViolation<Conto>> constraintViolations = validator.validate(conto);
+			if (constraintViolations.size() > 0) {
+				ConstraintViolation<Conto>[] array = constraintViolations.toArray(new ConstraintViolation[constraintViolations.size()]);
+				ValidationErrorHeader validationErrorHeader = new ValidationErrorHeader();
+				validationErrorHeader.setClassName(Conto.class.getSimpleName());
+				List<ValidationErrorDetail> errorsDetails = new ArrayList<>();
+				for (int i = 0; i < array.length; i++) {
+					ConstraintViolation<Conto> constraintViolation = array[i];
+					String constraintFullName = constraintViolation.getConstraintDescriptor().getAnnotation().annotationType().toString();
+					String constraintName = constraintFullName.substring(constraintFullName.lastIndexOf(".") + 1);
+					errorsDetails.add(new ValidationErrorDetail(constraintViolation.getPropertyPath().toString(), constraintName, constraintViolation.getMessageTemplate().replaceAll("\\{|\\}", "")));
+				}
+				validationErrorHeader.setErrors(errorsDetails);
+				Response response = Response.status(Status.BAD_REQUEST).entity(validationErrorHeader).build();
+				throw new WebApplicationException(response);
+			}
 		}
 	}
 
