@@ -9,15 +9,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class ValidationErrorDetail {
 	private String field;
 	private String constraintName;
+	private String messageTemplate;
 
 	public ValidationErrorDetail() {
 		super();
 	}
 
-	public ValidationErrorDetail(String field, String constraintName) {
+	public ValidationErrorDetail(String field, String constraintName, String messageTemplate) {
 		super();
 		this.field = field;
 		this.constraintName = constraintName;
+		this.messageTemplate = messageTemplate;
 	}
 
 	public String getField() {
@@ -34,5 +36,13 @@ public class ValidationErrorDetail {
 
 	public void setConstraintName(String constraintName) {
 		this.constraintName = constraintName;
+	}
+
+	public String getMessageTemplate() {
+		return messageTemplate;
+	}
+
+	public void setMessageTemplate(String messageTemplate) {
+		this.messageTemplate = messageTemplate;
 	}
 }

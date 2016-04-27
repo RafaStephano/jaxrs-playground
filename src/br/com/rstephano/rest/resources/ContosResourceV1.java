@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -17,6 +18,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -31,7 +33,9 @@ import br.com.rstephano.rest.objects.ValidationErrorHeader;
 
 @Path("v1/conto")
 public class ContosResourceV1 {
-
+	
+	@Context
+	private HttpServletRequest request;
 	private ContoRepository contoRepository;
 
 	public ContosResourceV1() {
@@ -84,7 +88,7 @@ public class ContosResourceV1 {
 				ConstraintViolation<Conto> constraintViolation = array[i];
 				String constraintFullName = constraintViolation.getConstraintDescriptor().getAnnotation().annotationType().toString();
 				String constraintName = constraintFullName.substring(constraintFullName.lastIndexOf(".") + 1);
-				errorsDetails.add(new ValidationErrorDetail(constraintViolation.getPropertyPath().toString(), constraintName));
+				errorsDetails.add(new ValidationErrorDetail(constraintViolation.getPropertyPath().toString(), constraintName, constraintViolation.getMessageTemplate().replaceAll("\\{|\\}", "")));
 			}
 			validationErrorHeader.setErrors(errorsDetails);
 			Response response = Response.status(Status.BAD_REQUEST).entity(validationErrorHeader).build();

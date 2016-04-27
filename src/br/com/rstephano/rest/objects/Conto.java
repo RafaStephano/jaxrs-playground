@@ -3,6 +3,7 @@ package br.com.rstephano.rest.objects;
 import java.util.Date;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -26,10 +27,11 @@ public class Conto {
 	private String titulo;
 	@NotNull
 	@NotEmpty
+	@Size(min = 100)
 	private String conto;
 	@NotNull
 	@XmlJavaTypeAdapter(XmlDateAdapter.class)
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm.SSSZ")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm.SSSZ")
 	private Date dataCadastro;
 
 	public Conto() {
