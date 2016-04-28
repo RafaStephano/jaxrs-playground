@@ -6,16 +6,14 @@ import javax.validation.MessageInterpolator;
 
 public class LocaleSpecificMessageInterpolator implements MessageInterpolator {
 	private final MessageInterpolator defaultInterpolator;
-	private final Locale defaultLocale;
 
-	public LocaleSpecificMessageInterpolator(MessageInterpolator interpolator, Locale locale) {
+	public LocaleSpecificMessageInterpolator(MessageInterpolator interpolator) {
 		this.defaultInterpolator = interpolator;
-		this.defaultLocale = locale;
 	}
 
 	@Override
 	public String interpolate(String message, Context context) {
-		return defaultInterpolator.interpolate(message, context, this.defaultLocale);
+		return defaultInterpolator.interpolate(message, context, LocaleThreadLocal.get());
 	}
 
 	@Override

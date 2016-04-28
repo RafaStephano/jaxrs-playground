@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Configuration;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -47,6 +46,18 @@ public class ContosResourceV1 {
 		contoRepository = new ContoRepository();
 	}
 
+	@GET
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public Response listar() {
+		List<br.com.rstephano.db.entities.Conto> contosDb = contoRepository.listar();
+		List<Conto> contos = new ArrayList<Conto>();
+		for (int i = 0; i < contosDb.size(); i++) {
+			contos.add(new Conto(contosDb.get(i).getId().toHexString(), contosDb.get(i).getAutorId(), contosDb.get(i).getTitulo(), contosDb.get(i).getConto(), contosDb.get(i).getDataCadastro()));
+		}
+		return Response.status(Status.CREATED).entity(contos).build();
+	}
+
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -85,7 +96,7 @@ public class ContosResourceV1 {
 			throw new WebApplicationException(response);
 		} else {
 			Configuration<?> config = Validation.byDefaultProvider().configure();
-			config.messageInterpolator(new LocaleSpecificMessageInterpolator(Validation.byDefaultProvider().configure().getDefaultMessageInterpolator(), headers.getAcceptableLanguages().get(0)));
+			config.messageInterpolator(new LocaleSpecificMessageInterpolator(Validation.byDefaultProvider().configure().getDefaultMessageInterpolator()));
 			ValidatorFactory factory = config.buildValidatorFactory();
 			Validator validator = factory.getValidator();
 			Set<ConstraintViolation<Conto>> constraintViolations = validator.validate(conto);

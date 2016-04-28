@@ -1,7 +1,6 @@
 package br.com.rstephano;
 
 import java.text.MessageFormat;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
 import java.util.MissingResourceException;

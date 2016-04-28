@@ -38,6 +38,16 @@ public class Conto {
 		super();
 	}
 
+	public Conto(String id, String autorId, String titulo, String conto,
+			Date dataCadastro) {
+		super();
+		this.id = id;
+		this.autorId = autorId;
+		this.titulo = titulo;
+		this.conto = conto;
+		this.dataCadastro = dataCadastro;
+	}
+
 	public String getId() {
 		return id;
 	}
