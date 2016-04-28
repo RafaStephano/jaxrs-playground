@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Configuration;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -19,6 +20,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -27,6 +29,7 @@ import javax.ws.rs.core.UriBuilder;
 import org.bson.types.ObjectId;
 
 import br.com.rstephano.MessageBundleUtil;
+import br.com.rstephano.bundles.LocaleSpecificMessageInterpolator;
 import br.com.rstephano.db.repositories.ContoRepository;
 import br.com.rstephano.rest.objects.Conto;
 import br.com.rstephano.rest.objects.ValidationErrorDetail;
@@ -36,7 +39,7 @@ import br.com.rstephano.rest.objects.ValidationErrorHeader;
 public class ContosResourceV1 {
 	
 	@Context
-	private HttpServletRequest request;
+	private HttpHeaders headers;
 	private ContoRepository contoRepository;
 
 	public ContosResourceV1() {
@@ -78,10 +81,12 @@ public class ContosResourceV1 {
 	@SuppressWarnings("unchecked")
 	private void validarConto(Conto conto) {
 		if (conto == null) {
-			Response response = Response.status(Status.BAD_REQUEST).entity(MessageBundleUtil.getMessage(MessageBundleUtil.Key.VALIDATIONS, request.getLocales(), "objeto_requerido", new String[]{Conto.class.getSimpleName()})).build();
+			Response response = Response.status(Status.BAD_REQUEST).entity(MessageBundleUtil.getMessage(MessageBundleUtil.Key.VALIDATIONS, headers, "objeto_requerido", new String[]{Conto.class.getSimpleName()})).build();
 			throw new WebApplicationException(response);
 		} else {
-			ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+			Configuration<?> config = Validation.byDefaultProvider().configure();
+			config.messageInterpolator(new LocaleSpecificMessageInterpolator(Validation.byDefaultProvider().configure().getDefaultMessageInterpolator(), headers.getAcceptableLanguages().get(0)));
+			ValidatorFactory factory = config.buildValidatorFactory();
 			Validator validator = factory.getValidator();
 			Set<ConstraintViolation<Conto>> constraintViolations = validator.validate(conto);
 			if (constraintViolations.size() > 0) {
@@ -93,7 +98,7 @@ public class ContosResourceV1 {
 					ConstraintViolation<Conto> constraintViolation = array[i];
 					String constraintFullName = constraintViolation.getConstraintDescriptor().getAnnotation().annotationType().toString();
 					String constraintName = constraintFullName.substring(constraintFullName.lastIndexOf(".") + 1);
-					errorsDetails.add(new ValidationErrorDetail(constraintViolation.getPropertyPath().toString(), constraintName, constraintViolation.getMessageTemplate().replaceAll("\\{|\\}", "")));
+					errorsDetails.add(new ValidationErrorDetail(constraintViolation.getPropertyPath().toString(), constraintName, constraintViolation.getMessage()));
 				}
 				validationErrorHeader.setErrors(errorsDetails);
 				Response response = Response.status(Status.BAD_REQUEST).entity(validationErrorHeader).build();
