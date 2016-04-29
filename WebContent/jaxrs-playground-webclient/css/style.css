@@ -1,0 +1,16 @@
+body {
+	padding-top: 70px;
+}
+#cell-loading-widget {
+	display:none;
+}
+.loading-widget {
+	margin: auto;
+	width: 80px;
+	height: 10px;
+	background-image: url("../img/loading.gif");
+}
+.loading-message {
+	text-align: center;
+	width: 100%;
+}
