@@ -55,7 +55,7 @@ public class ContosResourceV1 {
 		for (int i = 0; i < contosDb.size(); i++) {
 			contos.add(new Conto(contosDb.get(i).getId().toHexString(), contosDb.get(i).getAutorId(), contosDb.get(i).getTitulo(), contosDb.get(i).getConto(), contosDb.get(i).getDataCadastro()));
 		}
-		return Response.status(Status.CREATED).entity(contos).build();
+		return Response.status(Status.OK).entity(contos).build();
 	}
 
 	@POST

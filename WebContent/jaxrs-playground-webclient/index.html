@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<style>
+	.pure-g>div {
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+	}
+	body { padding-top: 70px; }
+	.cssload-preload-juggle {
+		width: 292px;
+		height: 292px;
+		position: absolute;
+		margin-top: -146px;
+		left: 50%;
+		margin-left: -146px;
+	}
+	.cssload-preload-juggle div {
+		position: absolute;
+		width: 20px;
+		height: 20px;
+		border-radius: 10.5px;
+		background: rgb(255,0,0);
+		margin-top: 146px;
+		margin-left: 146px;
+		animation: cssload-juggle 2.42s linear infinite;
+			-o-animation: cssload-juggle 2.42s linear infinite;
+			-ms-animation: cssload-juggle 2.42s linear infinite;
+			-webkit-animation: cssload-juggle 2.42s linear infinite;
+			-moz-animation: cssload-juggle 2.42s linear infinite;
+	}
+	.cssload-preload-juggle div:nth-child(1) {
+		animation-delay: -0.81s;
+			-o-animation-delay: -0.81s;
+			-ms-animation-delay: -0.81s;
+			-webkit-animation-delay: -0.81s;
+			-moz-animation-delay: -0.81s;
+	}
+	.cssload-preload-juggle div:nth-child(2) {
+		animation-delay: -1.61s;
+			-o-animation-delay: -1.61s;
+			-ms-animation-delay: -1.61s;
+			-webkit-animation-delay: -1.61s;
+			-moz-animation-delay: -1.61s;
+	}
+
+
+
+	@keyframes cssload-juggle {
+		0% {
+			transform: translateX(0px) translateY(0px);
+		}
+		12.5% {
+			transform: translateX(26.5px) translateY(-56px) scale(1.1);
+			background: rgb(0,0,0);
+		}
+		25% {
+			transform: translateX(54px) translateY(0px);
+			animation-timing-function: ease-out;
+		}
+		37.5% {
+			transform: translateX(26.5px) translateY(56px);
+		}
+		50% {
+			transform: translateX(0px) translateY(0px);
+		}
+		62.5% {
+			transform: translateX(-26.5px) translateY(-56px) scale(1.1);
+			animation-timing-function: ease-in;
+		}
+		75% {
+			transform: translateX(-54px) translateY(0px);
+			animation-timing-function: ease-out;
+		}
+		87.5% {
+			transform: translateX(-26.5px) translateY(56px);
+		}
+		100% {
+			transform: translateX(0px) translateY(0px);
+		}
+	}
+
+	@-o-keyframes cssload-juggle {
+		0% {
+			-o-transform: translateX(0px) translateY(0px);
+		}
+		12.5% {
+			-o-transform: translateX(26.5px) translateY(-56px) scale(1.1);
+			background: rgb(0,0,0);
+		}
+		25% {
+			-o-transform: translateX(54px) translateY(0px);
+			-o-animation-timing-function: ease-out;
+		}
+		37.5% {
+			-o-transform: translateX(26.5px) translateY(56px);
+		}
+		50% {
+			-o-transform: translateX(0px) translateY(0px);
+		}
+		62.5% {
+			-o-transform: translateX(-26.5px) translateY(-56px) scale(1.1);
+			-o-animation-timing-function: ease-in;
+		}
+		75% {
+			-o-transform: translateX(-54px) translateY(0px);
+			-o-animation-timing-function: ease-out;
+		}
+		87.5% {
+			-o-transform: translateX(-26.5px) translateY(56px);
+		}
+		100% {
+			-o-transform: translateX(0px) translateY(0px);
+		}
+	}
+
+	@-ms-keyframes cssload-juggle {
+		0% {
+			-ms-transform: translateX(0px) translateY(0px);
+		}
+		12.5% {
+			-ms-transform: translateX(26.5px) translateY(-56px) scale(1.1);
+			background: rgb(0,0,0);
+		}
+		25% {
+			-ms-transform: translateX(54px) translateY(0px);
+			-ms-animation-timing-function: ease-out;
+		}
+		37.5% {
+			-ms-transform: translateX(26.5px) translateY(56px);
+		}
+		50% {
+			-ms-transform: translateX(0px) translateY(0px);
+		}
+		62.5% {
+			-ms-transform: translateX(-26.5px) translateY(-56px) scale(1.1);
+			-ms-animation-timing-function: ease-in;
+		}
+		75% {
+			-ms-transform: translateX(-54px) translateY(0px);
+			-ms-animation-timing-function: ease-out;
+		}
+		87.5% {
+			-ms-transform: translateX(-26.5px) translateY(56px);
+		}
+		100% {
+			-ms-transform: translateX(0px) translateY(0px);
+		}
+	}
+
+	@-webkit-keyframes cssload-juggle {
+		0% {
+			-webkit-transform: translateX(0px) translateY(0px);
+		}
+		12.5% {
+			-webkit-transform: translateX(26.5px) translateY(-56px) scale(1.1);
+			background: rgb(0,0,0);
+		}
+		25% {
+			-webkit-transform: translateX(54px) translateY(0px);
+			-webkit-animation-timing-function: ease-out;
+		}
+		37.5% {
+			-webkit-transform: translateX(26.5px) translateY(56px);
+		}
+		50% {
+			-webkit-transform: translateX(0px) translateY(0px);
+		}
+		62.5% {
+			-webkit-transform: translateX(-26.5px) translateY(-56px) scale(1.1);
+			-webkit-animation-timing-function: ease-in;
+		}
+		75% {
+			-webkit-transform: translateX(-54px) translateY(0px);
+			-webkit-animation-timing-function: ease-out;
+		}
+		87.5% {
+			-webkit-transform: translateX(-26.5px) translateY(56px);
+		}
+		100% {
+			-webkit-transform: translateX(0px) translateY(0px);
+		}
+	}
+
+	@-moz-keyframes cssload-juggle {
+		0% {
+			-moz-transform: translateX(0px) translateY(0px);
+		}
+		12.5% {
+			-moz-transform: translateX(26.5px) translateY(-56px) scale(1.1);
+			background: rgb(0,0,0);
+		}
+		25% {
+			-moz-transform: translateX(54px) translateY(0px);
+			-moz-animation-timing-function: ease-out;
+		}
+		37.5% {
+			-moz-transform: translateX(26.5px) translateY(56px);
+		}
+		50% {
+			-moz-transform: translateX(0px) translateY(0px);
+		}
+		62.5% {
+			-moz-transform: translateX(-26.5px) translateY(-56px) scale(1.1);
+			-moz-animation-timing-function: ease-in;
+		}
+		75% {
+			-moz-transform: translateX(-54px) translateY(0px);
+			-moz-animation-timing-function: ease-out;
+		}
+		87.5% {
+			-moz-transform: translateX(-26.5px) translateY(56px);
+		}
+		100% {
+			-moz-transform: translateX(0px) translateY(0px);
+		}
+	}
+</style>
+</head>
+<body>
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			Teste
+		</div>
+	</nav>
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<form id="criarContoForm" class="form-horizontal">
+					<div class="form-group">
+						<label for="autorId" class="col-sm-2 control-label">Autor</label>
+						<div class="col-sm-10">
+							<input type="text" name="autorId" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="titulo" class="col-sm-2 control-label">Titulo</label>
+						<div class="col-sm-10">
+							<input type="text" name="titulo" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="conto" class="col-sm-2 control-label">Conto</label>
+						<div class="col-sm-10">
+							<textarea name="conto" class="form-control"></textarea>
+						</div>
+					</div>
+					<input type="hidden" name="dataCadastro" id="dataCadastro" />
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<input type="button" value="Criar" onclick="adicionaConto();" class="btn btn-default" />
+						</div>
+					</div>
+				</form>
+				<table id="contos" class="table table-hover">
+					<thead>
+						<tr>
+							<td>id</td>
+							<td>Autor</td>
+							<td>Título</td>
+							<td>Data</td>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+				<div class="cssload-preload-juggle" style="display:none;">
+					<div class="cssload-ball"></div>
+					<div class="cssload-ball"></div>
+					<div class="cssload-ball"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel"></h4>
+				</div>
+				<div class="modal-body">
+					...
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="js/jquery-2.2.3.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jquery.serializejson.js"></script>
+	<script src="js/moment-with-locales.min.js"></script>
+	<script>
+		function listar() {
+			$('.cssload-preload-juggle').show();
+		    $.ajax({
+				url : 'http://localhost:8080/jaxrs-playground/services/v1/conto',
+				type : 'GET',
+				contentType : 'application/json',
+				accepts : {
+			        json: 'application/json'
+			    },
+				success : function(data) {
+					drawTable(data);
+					$('.cssload-preload-juggle').hide();
+				},
+				error : function(data) {
+					$("#modal .modal-title").html('sssss');
+					$("#modal .modal-body").html(data);
+					$('#modal').modal('show');
+					$('.cssload-preload-juggle').hide();
+				}
+			});
+		}
+	
+		function adicionaConto() {
+			$("#dataCadastro").val(moment().format("YYYY-MM-DDTHH:mm:ss.SSSZZ"));
+			var data = $("#criarContoForm").serializeJSON();
+			data = JSON.stringify(data);
+			$.ajax({
+				url : 'http://localhost:8080/jaxrs-playground/services/v1/conto',
+				type : 'POST',
+				contentType : 'application/json',
+				data : data,
+				success : function(data) {
+					listar();
+				},
+				statusCode : {
+					400 : function(xhr) {
+						$("#modal .modal-title").html(xhr.statusText);
+						$("#modal .modal-body").html(xhr.responseText);
+						$('#modal').modal('show');
+						$('.cssload-preload-juggle').hide();
+					}
+				},
+				error : function(data) {
+					$("#modal .modal-title").html('sssss');
+					$("#modal .modal-body").html(data);
+					$('#modal').modal('show');
+					$('.cssload-preload-juggle').hide();
+				}
+			});
+		}
+	
+		function drawTable(data) {
+			$("#contos tbody tr").remove();
+		    for (var i = 0; i < data.length; i++) {
+		        drawRow(data[i], (i % 2 == 1 ? '' : ''));
+		    }
+		}
+		
+		function drawRow(rowData, cssClass) {
+		    $("<tr class='" + cssClass + "'><td>" + rowData.id + "</td><td>" + rowData.autorId + "</td><td>" + rowData.titulo + "</td><td>" + rowData.dataCadastro + "</td></tr>").appendTo("#contos tbody");
+		}
+		
+		$( document ).ready(function() {
+			listar();
+		});
+	</script>
+</body>
+</html>
+
