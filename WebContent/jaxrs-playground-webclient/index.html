@@ -86,85 +86,10 @@
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/jquery.serializejson.js"></script>
 	<script src="js/moment-with-locales.min.js"></script>
+	<script src="js/default.js"></script>
+	<script src="js/pages/index.js"></script>
 	<script>
-		function listar() {
-			$('#cell-loading-widget').show();
-			$('.loading-widget').show();
-			$('.loading-message').hide();
-		    $.ajax({
-				url : 'http://localhost:8081/jaxrs-playground/services/v1/conto',
-				type : 'GET',
-				contentType : 'application/json',
-				timeout: 5000,
-				accepts : {
-			        json: 'application/json'
-			    },
-				success : function(data) {
-					drawTable(data);
-					$('#cell-loading-widget').hide();
-					$('.loading-widget').hide();
-					$('.loading-message').hide();
-				},
-				error : function(jqXHR, textStatus, errorThrown) {
-					$("#modal .modal-title").html(textStatus);
-					$("#modal .modal-body").html(jqXHR.responseText);
-					$('#modal').modal('show');
-					$('#cell-loading-widget').show();
-					$('.loading-widget').hide();
-					if(textStatus==="timeout") {
-						$('.loading-message').html('Não foi possível conectar ao servidor... <a onclick="listar();" class="btn btn-primary btn-xs">Tentar novamente</a>').show();
-					} else {
-						$('.loading-message').html('Ocorreu um erro ao carregar a lista... <a onclick="listar();" class="btn btn-primary btn-xs">Tentar novamente</a>').show();
-					}
-				}
-			});
-		}
-	
-		function adicionaConto() {
-			$("#dataCadastro").val(moment().format("YYYY-MM-DDTHH:mm:ss.SSSZZ"));
-			var data = $("#criarContoForm").serializeJSON();
-			data = JSON.stringify(data);
-			$.ajax({
-				url : 'http://localhost:8081/jaxrs-playground/services/v1/conto',
-				type : 'POST',
-				contentType : 'application/json',
-				timeout: 5000,
-				data : data,
-				success : function(data) {
-					listar();
-				},
-				statusCode : {
-					400 : function(jqXHR, textStatus, errorThrown) {
-						$("#modal .modal-title").html(textStatus);
-						$("#modal .modal-body").html(jqXHR.responseText);
-						$('#modal').modal('show');
-					}
-				},
-				error : function(jqXHR, textStatus, errorThrown) {
-					$("#modal .modal-title").html(textStatus);
-					$("#modal .modal-body").html(jqXHR.responseText);
-					$('#modal').modal('show');
-				}
-			});
-		}
-	
-		function drawTable(data) {
-			$("#contos tbody tr").remove();
-		    for (var i = 0; i < data.length; i++) {
-		        drawRow(data[i], (i % 2 == 1 ? '' : ''));
-		    }
-		}
-		
-		function drawRow(rowData, cssClass) {
-		    var row = $("<tr class='" + cssClass + "'><td>" + rowData.id + "</td><td>" + rowData.autorId + "</td><td>" + rowData.titulo + "</td><td>" + rowData.dataCadastro + "</td></tr>");
-		    row.appendTo("#contos tbody");
-		    row.find('td').wrapInner('<div style="display: none;" />').parent().find('td > div').slideDown(1000, function(){
-				var $set = $(this);
-				$set.replaceWith($set.contents());
-		    });
-		}
-		
-		$( document ).ready(function() {
+		$(document).ready(function() {
 			listar();
 		});
 	</script>
