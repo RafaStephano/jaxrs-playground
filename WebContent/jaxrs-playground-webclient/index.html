@@ -6,8 +6,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <link rel="stylesheet" href="css/style.css">
+<script src="js/angular.min.js"></script>
+<script src="js/angular-locale_pt-br.js"></script>
 </head>
-<body>
+<body data-ng-app="indexApp" data-ng-controller="indexCtrl">
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container">
 			Teste
@@ -52,11 +54,17 @@
 							<th>Título</th>
 							<th>Data</th>
 						</tr>
-						<tr>
-							<td id="cell-loading-widget" colspan="4">
-								<div class="loading-widget"></div>
-								<p class="loading-message"></p>
+						<tr data-ng-show="showLoadingRow">
+							<td colspan="4">
+								<div data-ng-show="showLoadingWidget" class="loading-widget"></div>
+								<p data-ng-show="showLoadingMessage" class="loading-message">{{erro.mensagem}}</p>
 							</td>
+						</tr>
+						<tr data-ng-repeat="conto in contos">
+							<td>{{conto.id}}</td>
+							<td>{{conto.autorId}}</td>
+							<td>{{conto.titulo}}</td>
+							<td>{{conto.dataCadastro}}</td>
 						</tr>
 					</thead>
 					<tbody>
@@ -87,12 +95,8 @@
 	<script src="js/jquery.serializejson.js"></script>
 	<script src="js/moment-with-locales.min.js"></script>
 	<script src="js/default.js"></script>
-	<script src="js/pages/index.js"></script>
-	<script>
-		$(document).ready(function() {
-			listar();
-		});
-	</script>
+	<script src="js/angular/indexApp.js"></script>
+	<script src="js/angular/indexCtrl.js"></script>
 </body>
 </html>
 
