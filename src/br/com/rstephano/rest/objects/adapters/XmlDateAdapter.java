@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 public class XmlDateAdapter extends XmlAdapter<String, Date> {
 	
-	private String PATTERN = "YYYY-MM-dd'T'HH:mm:ss.SSSZZ";
+	private String PATTERN = "yyyy-MM-dd HH:mm:ss.sssZ";
 	private static Logger logger = Logger.getLogger(XmlDateAdapter.class.getName());
 	private final SimpleDateFormat dateFormat;
 

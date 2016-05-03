@@ -5,23 +5,42 @@ app.controller("indexCtrl", function($scope, $http) {
 		$scope.showLoadingMessage = false;
 		$http.get(host + "v1/conto", {
 			headers : {
-				'Accept' : 'application/json'
+				"Accept" : "application/json"
 			}
-		}).then(function(response) {
-			// Success
-			$scope.contos = response.data;
+		}).success(function(data, status, headers, config) {
+			$scope.contos = data;
 			$scope.showLoadingRow = false;
-		}, function(response) {
-			// Error
+		}).error(function(data, status, headers, config) {
 			$scope.contos = null;
 			$scope.showLoadingRow = true;
 			$scope.showLoadingWidget = false;
 			$scope.showLoadingMessage = true;
-			if (response.status = -1) {
-				// Timeout
+			if (status == -1) {
 				$scope.erro = {mensagem:"Timeout"};
 			} else {
-				$scope.erro = {mensagem:response.status};
+				$scope.erro = {mensagem:status};
+			}
+		});
+	};
+	$scope.novoConto = function() {
+		$("#modalAddConto").modal("show");
+	};
+	$scope.adicionarConto = function() {
+		$("#dataCadastro").val(moment().format(isoDateFormat));
+		var data = $("#criarContoForm").serializeJSON();
+		data = JSON.stringify(data);
+		$http.post(host + "v1/conto", data, {
+			headers : {
+				"Accept" : "application/json"
+			}
+		}).success(function(data, status, headers, config) {
+			alert(headers("Location"));
+			$scope.listarContos();
+		}).error(function(data, status, headers, config) {
+			if (status == -1) {
+				alert("Timeout");
+			} else {
+				$scope.erro = {mensagem:data};
 			}
 		});
 	};

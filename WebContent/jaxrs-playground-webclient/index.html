@@ -10,82 +10,90 @@
 <script src="js/angular-locale_pt-br.js"></script>
 </head>
 <body data-ng-app="indexApp" data-ng-controller="indexCtrl">
-	<nav class="navbar navbar-default navbar-fixed-top">
-		<div class="container">
-			Teste
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Brand</a>
+			</div>
 		</div>
 	</nav>
-	<div class="container">
+	<div class="container-fluid">
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<form id="criarContoForm" class="form-horizontal">
-					<div class="form-group">
-						<label for="autorId" class="col-sm-2 control-label">Autor</label>
-						<div class="col-sm-10">
-							<input type="text" name="autorId" class="form-control" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="titulo" class="col-sm-2 control-label">Titulo</label>
-						<div class="col-sm-10">
-							<input type="text" name="titulo" class="form-control" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="conto" class="col-sm-2 control-label">Conto</label>
-						<div class="col-sm-10">
-							<textarea name="conto" class="form-control"></textarea>
-						</div>
-					</div>
-					<input type="hidden" name="dataCadastro" id="dataCadastro" />
-					<div class="form-group">
-						<div class="col-sm-offset-2 col-sm-10">
-							<input type="button" value="Salvar" onclick="adicionaConto();" class="btn btn-primary" />
-						</div>
-					</div>
-				</form>
+				<button type="button" class="btn btn-success" aria-label="Left Align" data-ng-click="novoConto()"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Novo</button>
+				<button type="button" class="btn btn-success" aria-label="Left Align"><span class="glyphicon glyphicon-align-left" aria-hidden="true"></span> sss</button>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<table id="contos" class="table table-bordered">
-					<thead>
-						<tr>
-							<th>id</th>
-							<th>Autor</th>
-							<th>Título</th>
-							<th>Data</th>
-						</tr>
-						<tr data-ng-show="showLoadingRow">
-							<td colspan="4">
-								<div data-ng-show="showLoadingWidget" class="loading-widget"></div>
-								<p data-ng-show="showLoadingMessage" class="loading-message">{{erro.mensagem}}</p>
-							</td>
-						</tr>
-						<tr data-ng-repeat="conto in contos">
-							<td>{{conto.id}}</td>
-							<td>{{conto.autorId}}</td>
-							<td>{{conto.titulo}}</td>
-							<td>{{conto.dataCadastro}}</td>
-						</tr>
-					</thead>
-					<tbody>
-					</tbody>
-				</table>
+				<div class="panel panel-default">
+					<table id="contos" class="table table-bordered">
+						<thead>
+							<tr>
+								<th>id</th>
+								<th>Autor</th>
+								<th>Título</th>
+								<th>Data</th>
+							</tr>
+							<tr data-ng-show="showLoadingRow">
+								<td colspan="4">
+									<div data-ng-show="showLoadingWidget" class="loading-widget"></div>
+									<p data-ng-show="showLoadingMessage" class="loading-message">{{erro.mensagem}}</p>
+								</td>
+							</tr>
+							<tr data-ng-repeat="conto in contos">
+								<td>{{conto.id}}</td>
+								<td>{{conto.autorId}}</td>
+								<td>{{conto.titulo}}</td>
+								<td>{{conto.dataCadastro}}</td>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>
-	<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
-		<div class="modal-dialog" role="document">
+	<div class="modal fade bs-example-modal-lg" id="modalAddConto" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="myModalLabel"></h4>
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span> <span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">Novo conto</h4>
 				</div>
 				<div class="modal-body">
-					...
+					<form id="criarContoForm" class="form-horizontal">
+						<div class="form-group">
+							<label for="autorId" class="col-sm-2 control-label">Autor</label>
+							<div class="col-sm-10">
+								<input type="text" name="autorId" class="form-control" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="titulo" class="col-sm-2 control-label">Titulo</label>
+							<div class="col-sm-10">
+								<input type="text" name="titulo" class="form-control" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="conto" class="col-sm-2 control-label">Conto</label>
+							<div class="col-sm-10">
+								<textarea name="conto" class="form-control" rows="20"></textarea>
+							</div>
+						</div>
+						<input type="hidden" name="dataCadastro" id="dataCadastro" />
+					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">Save changes</button>
+					<button type="reset" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+					<button type="button" data-ng-click="adicionarConto()" class="btn btn-primary">Salvar</button>
 				</div>
 			</div>
 		</div>
