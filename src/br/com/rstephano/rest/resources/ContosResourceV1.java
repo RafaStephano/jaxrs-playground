@@ -26,11 +26,13 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 
 import org.bson.types.ObjectId;
+import org.joda.time.DateTime;
 
 import br.com.rstephano.MessageBundleUtil;
 import br.com.rstephano.bundles.LocaleSpecificMessageInterpolator;
 import br.com.rstephano.db.repositories.ContoRepository;
 import br.com.rstephano.rest.objects.Conto;
+import br.com.rstephano.rest.objects.Contos;
 import br.com.rstephano.rest.objects.ValidationErrorDetail;
 import br.com.rstephano.rest.objects.ValidationErrorHeader;
 
@@ -53,9 +55,9 @@ public class ContosResourceV1 {
 		List<br.com.rstephano.db.entities.Conto> contosDb = contoRepository.listar();
 		List<Conto> contos = new ArrayList<Conto>();
 		for (int i = 0; i < contosDb.size(); i++) {
-			contos.add(new Conto(contosDb.get(i).getId().toHexString(), contosDb.get(i).getAutorId(), contosDb.get(i).getTitulo(), contosDb.get(i).getConto(), contosDb.get(i).getDataCadastro()));
+			contos.add(new Conto(contosDb.get(i).getId().toHexString(), contosDb.get(i).getAutorId(), contosDb.get(i).getTitulo(), contosDb.get(i).getConto(), new DateTime(contosDb.get(i).getDataCadastro())));
 		}
-		return Response.status(Status.OK).entity(contos).build();
+		return Response.status(Status.OK).entity(new Contos(contos)).build();
 	}
 
 	@POST
@@ -63,10 +65,10 @@ public class ContosResourceV1 {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response incluir(Conto conto) throws URISyntaxException {
 		validarConto(conto);
-		br.com.rstephano.db.entities.Conto contoDb = new br.com.rstephano.db.entities.Conto(null, conto.getAutorId(), conto.getTitulo(), conto.getConto(), conto.getDataCadastro());
+		br.com.rstephano.db.entities.Conto contoDb = new br.com.rstephano.db.entities.Conto(null, conto.getAutorId(), conto.getTitulo(), conto.getConto(), conto.getDataCadastro().toDate());
 		contoRepository.inserir(contoDb);
 		conto.setId(contoDb.getId().toHexString());
-		conto.setDataCadastro(contoDb.getDataCadastro());
+		conto.setDataCadastro(new DateTime(contoDb.getDataCadastro()));
 		URI location = UriBuilder.fromPath("conto/{id}").build(contoDb.getId().toString());
 		return Response.status(Status.CREATED).entity(conto).location(location).build();
 	}
@@ -82,7 +84,7 @@ public class ContosResourceV1 {
 			conto.setAutorId(contoDb.getAutorId());
 			conto.setTitulo(contoDb.getTitulo());
 			conto.setConto(contoDb.getConto());
-			conto.setDataCadastro(contoDb.getDataCadastro());
+			conto.setDataCadastro(new DateTime(contoDb.getDataCadastro()));
 			return Response.status(Status.OK).entity(conto).build();
 		} else {
 			return Response.status(Status.NOT_FOUND).entity("").build();

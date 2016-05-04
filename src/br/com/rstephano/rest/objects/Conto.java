@@ -1,7 +1,5 @@
 package br.com.rstephano.rest.objects;
 
-import java.util.Date;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -10,10 +8,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.joda.time.DateTime;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import br.com.rstephano.rest.objects.adapters.XmlDateAdapter;
+import br.com.rstephano.rest.objects.adapters.JsonDateTimeSerializer;
+import br.com.rstephano.rest.objects.adapters.XmlDateTimeAdapter;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -30,16 +30,15 @@ public class Conto {
 	@Size(min = 100)
 	private String conto;
 	@NotNull
-	@XmlJavaTypeAdapter(XmlDateAdapter.class)
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm.SSSZ")
-	private Date dataCadastro;
+	@JsonSerialize(using = JsonDateTimeSerializer.class)
+	@XmlJavaTypeAdapter(XmlDateTimeAdapter.class)
+	private DateTime dataCadastro;
 
 	public Conto() {
 		super();
 	}
 
-	public Conto(String id, String autorId, String titulo, String conto,
-			Date dataCadastro) {
+	public Conto(String id, String autorId, String titulo, String conto, DateTime dataCadastro) {
 		super();
 		this.id = id;
 		this.autorId = autorId;
@@ -80,11 +79,11 @@ public class Conto {
 		this.conto = conto;
 	}
 
-	public Date getDataCadastro() {
+	public DateTime getDataCadastro() {
 		return dataCadastro;
 	}
 
-	public void setDataCadastro(Date dataCadastro) {
+	public void setDataCadastro(DateTime dataCadastro) {
 		this.dataCadastro = dataCadastro;
 	}
 }

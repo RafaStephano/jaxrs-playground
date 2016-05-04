@@ -19,7 +19,6 @@ public class XmlDateAdapter extends XmlAdapter<String, Date> {
 	}
 
 	public String marshal(Date date) throws Exception {
-		logger.info(date.toString());
 		try {
 			return dateFormat.format(date);
 		} catch (Exception e) {
@@ -29,7 +28,6 @@ public class XmlDateAdapter extends XmlAdapter<String, Date> {
 	}
 
 	public Date unmarshal(String dateString) throws Exception {
-		logger.info(dateString);
 		try {
 			return dateFormat.parse(dateString);
 		} catch (ParseException e) {
