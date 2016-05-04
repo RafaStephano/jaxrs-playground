@@ -11,7 +11,7 @@ import br.com.rstephano.db.entities.Conto;
 public class ContoRepository {
 
 	public List<Conto> listar() {
-		Query<Conto> query = MongoResource.INSTANCE.getDataStore().find(Conto.class);
+		Query<Conto> query = MongoResource.INSTANCE.getDataStore().createQuery(Conto.class).order("-dataCadastro");
 		return query.asList();
 	}
 

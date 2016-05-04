@@ -10,8 +10,10 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.DateTime;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import br.com.rstephano.rest.objects.adapters.JsonDateTimeDeserializer;
 import br.com.rstephano.rest.objects.adapters.JsonDateTimeSerializer;
 import br.com.rstephano.rest.objects.adapters.XmlDateTimeAdapter;
 
@@ -31,6 +33,7 @@ public class Conto {
 	private String conto;
 	@NotNull
 	@JsonSerialize(using = JsonDateTimeSerializer.class)
+	@JsonDeserialize(using = JsonDateTimeDeserializer.class)
 	@XmlJavaTypeAdapter(XmlDateTimeAdapter.class)
 	private DateTime dataCadastro;
 

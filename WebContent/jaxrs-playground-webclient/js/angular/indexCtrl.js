@@ -8,7 +8,7 @@ app.controller("indexCtrl", function($scope, $http) {
 				"Accept" : "application/json"
 			}
 		}).success(function(data, status, headers, config) {
-			$scope.contos = data;
+			$scope.contos = data.contos;
 			$scope.showLoadingRow = false;
 		}).error(function(data, status, headers, config) {
 			$scope.contos = null;
@@ -26,7 +26,7 @@ app.controller("indexCtrl", function($scope, $http) {
 		$("#modalAddConto").modal("show");
 	};
 	$scope.adicionarConto = function() {
-		$("#dataCadastro").val(moment().format(isoDateFormat));
+		$("#dataCadastro").val(moment().format());
 		var data = $("#criarContoForm").serializeJSON();
 		data = JSON.stringify(data);
 		$http.post(host + "v1/conto", data, {
@@ -34,7 +34,7 @@ app.controller("indexCtrl", function($scope, $http) {
 				"Accept" : "application/json"
 			}
 		}).success(function(data, status, headers, config) {
-			alert(headers("Location"));
+			$("#modalAddConto").modal("hide");
 			$scope.listarContos();
 		}).error(function(data, status, headers, config) {
 			if (status == -1) {

@@ -11,3 +11,12 @@
 	text-align: center;
 	width: 100%;
 }
+.td_align_right {
+	text-align: right;
+}
+.td_align_left {
+	text-align: left;
+}
+.td_align_center {
+	text-align: center;
+}

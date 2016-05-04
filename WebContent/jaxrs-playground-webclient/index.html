@@ -46,10 +46,10 @@
 								</td>
 							</tr>
 							<tr data-ng-repeat="conto in contos">
-								<td>{{conto.id}}</td>
-								<td>{{conto.autorId}}</td>
+								<td class="td_align_center">{{conto.id}}</td>
+								<td class="td_align_center">{{conto.autorId}}</td>
 								<td>{{conto.titulo}}</td>
-								<td>{{conto.dataCadastro}}</td>
+								<td class="td_align_center">{{conto.dataCadastro | date:'dd/MM/yyyy HH:mm:ss'}}</td>
 							</tr>
 						</thead>
 						<tbody>
