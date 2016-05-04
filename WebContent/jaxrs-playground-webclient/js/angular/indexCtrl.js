@@ -23,7 +23,26 @@ app.controller("indexCtrl", function($scope, $http) {
 		});
 	};
 	$scope.novoConto = function() {
+		$("#modalAddConto").modal("hide");
 		$("#modalAddConto").modal("show");
+	};
+	$scope.verConto = function(id) {
+		$("#modalVerConto").modal("hide");
+		$http.get(host + "v1/conto/" + id, {
+			headers : {
+				"Accept" : "application/json"
+			}
+		}).success(function(data, status, headers, config) {
+			$scope.conto = data;
+		}).error(function(data, status, headers, config) {
+			$scope.conto = null;
+			if (status == -1) {
+				$scope.erro = {mensagem:"Timeout"};
+			} else {
+				$scope.erro = {mensagem:status};
+			}
+		});
+		$("#modalVerConto").modal("show");
 	};
 	$scope.adicionarConto = function() {
 		$("#dataCadastro").val(moment().format());

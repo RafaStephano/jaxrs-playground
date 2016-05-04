@@ -34,10 +34,11 @@
 					<table id="contos" class="table table-bordered">
 						<thead>
 							<tr>
-								<th>id</th>
-								<th>Autor</th>
-								<th>Título</th>
-								<th>Data</th>
+								<th class="td_align_center" style="width: 15%;">id</th>
+								<th class="td_align_center" style="width: 15%;">Autor</th>
+								<th style="width: 50%;">Título</th>
+								<th class="td_align_center" style="width: 15%;">Data</th>
+								<th class="td_align_center" style="width: 5%;"></th>
 							</tr>
 							<tr data-ng-show="showLoadingRow">
 								<td colspan="4">
@@ -50,6 +51,11 @@
 								<td class="td_align_center">{{conto.autorId}}</td>
 								<td>{{conto.titulo}}</td>
 								<td class="td_align_center">{{conto.dataCadastro | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+								<td class="td_align_center">
+									<button type="button" class="btn btn-xs btn-default" aria-label="Left Align" data-ng-click="verConto(conto.id)">
+										<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+									</button>
+								</td>
 							</tr>
 						</thead>
 						<tbody>
@@ -94,6 +100,26 @@
 				<div class="modal-footer">
 					<button type="reset" class="btn btn-default" data-dismiss="modal">Cancelar</button>
 					<button type="button" data-ng-click="adicionarConto()" class="btn btn-primary">Salvar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade bs-example-modal-lg" id="modalVerConto" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span> <span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">{{conto.titulo}}</h4>
+				</div>
+				<div class="modal-body">
+					<p>Autor: {{conto.autorId}}</p>
+					<p>Publicado em: {{conto.dataCadastro | date:'dd/MM/yyyy HH:mm:ss'}}</p>
+					<p>{{conto.conto}}</p>
+				</div>
+				<div class="modal-footer">
+					<button type="reset" class="btn btn-default" data-dismiss="modal">Cancelar</button>
 				</div>
 			</div>
 		</div>
