@@ -1,1 +1,1 @@
-var app = angular.module("indexApp", []);
+var app = angular.module("indexApp", ['ngLocaleCustom']);

@@ -1,4 +1,12 @@
-app.controller("indexCtrl", function($scope, $http) {
+app.controller("indexCtrl", function($scope, $http, $locale, ngLocaleCustomValue) {
+    
+	$scope.locale= $locale.id;
+    $scope.new_ = ngLocaleCustomValue.new_;
+    $scope.cancel = ngLocaleCustomValue.cancel;
+    $scope.close = ngLocaleCustomValue.close;
+    $scope.title = ngLocaleCustomValue.title;
+    $scope.autor = ngLocaleCustomValue.autor;
+    
 	$scope.listarContos = function() {
 		$scope.showLoadingRow = true;
 		$scope.showLoadingWidget = true;

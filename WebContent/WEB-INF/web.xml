@@ -29,4 +29,8 @@
 		<servlet-name>Jersey Servlet</servlet-name>
 		<url-pattern>/services/*</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>/jaxrs-playground-webclient/*</url-pattern>
+	</servlet-mapping>
 </web-app>

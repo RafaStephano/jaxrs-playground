@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="css/style.css">
 <script src="js/angular.min.js"></script>
 <script src="js/angular-locale_pt-br.js"></script>
+<script src="js/angular-locale_custom_pt-br.js"></script>
 </head>
 <body data-ng-app="indexApp" data-ng-controller="indexCtrl">
 	<nav class="navbar navbar-default">
@@ -26,17 +27,14 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<button type="button" class="btn btn-success" aria-label="Left Align" data-ng-click="novoConto()"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Novo</button>
-				<button type="button" class="btn btn-success" aria-label="Left Align"><span class="glyphicon glyphicon-align-left" aria-hidden="true"></span> sss</button>
+				<button type="button" class="btn btn-success" aria-label="Left Align" data-ng-click="novoConto()"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {{new_}}</button>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="panel panel-default">
 					<table id="contos" class="table table-bordered">
 						<thead>
 							<tr>
-								<th class="td_align_center" style="width: 15%;">id</th>
-								<th class="td_align_center" style="width: 15%;">Autor</th>
-								<th style="width: 50%;">Título</th>
+								<th style="width: 80%;">Título</th>
 								<th class="td_align_center" style="width: 15%;">Data</th>
 								<th class="td_align_center" style="width: 5%;"></th>
 							</tr>
@@ -47,10 +45,8 @@
 								</td>
 							</tr>
 							<tr data-ng-repeat="conto in contos">
-								<td class="td_align_center">{{conto.id}}</td>
-								<td class="td_align_center">{{conto.autorId}}</td>
 								<td>{{conto.titulo}}</td>
-								<td class="td_align_center">{{conto.dataCadastro | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+								<td class="td_align_center">{{conto.dataCadastro | date: 'short'}}</td>
 								<td class="td_align_center">
 									<button type="button" class="btn btn-xs btn-default" aria-label="Left Align" data-ng-click="verConto(conto.id)">
 										<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
@@ -98,8 +94,8 @@
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="reset" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-					<button type="button" data-ng-click="adicionarConto()" class="btn btn-primary">Salvar</button>
+					<button type="reset" class="btn btn-default" data-dismiss="modal">{{cancel}}</button>
+					<button type="button" data-ng-click="adicionarConto()" class="btn btn-primary">{{save}}</button>
 				</div>
 			</div>
 		</div>
@@ -109,17 +105,17 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">
-						<span aria-hidden="true">&times;</span> <span class="sr-only">Close</span>
+						<span aria-hidden="true">&times;</span> <span class="sr-only">{{close}}</span>
 					</button>
 					<h4 class="modal-title" id="myModalLabel">{{conto.titulo}}</h4>
 				</div>
 				<div class="modal-body">
-					<p>Autor: {{conto.autorId}}</p>
+					<p>{{autor}}: {{conto.autorId}}</p>
 					<p>Publicado em: {{conto.dataCadastro | date:'dd/MM/yyyy HH:mm:ss'}}</p>
 					<p>{{conto.conto}}</p>
 				</div>
 				<div class="modal-footer">
-					<button type="reset" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+					<button type="reset" class="btn btn-default" data-dismiss="modal">{{cancel}}</button>
 				</div>
 			</div>
 		</div>
