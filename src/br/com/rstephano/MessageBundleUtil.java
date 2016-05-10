@@ -12,7 +12,7 @@ public class MessageBundleUtil {
 
 	public enum Key {
 		VALIDATIONS("br.com.rstephano.bundles.validations"),
-		EXCEPTIONS("br.com.rstephano.bundles.exceptions");
+		EXCEPTIONS("br.com.rstephano.resources.exceptions");
 
 		private String code;
 
