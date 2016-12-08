@@ -1,4 +1,4 @@
-package br.com.rstephano.rest.objects;
+package br.com.rstephano.objects;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;

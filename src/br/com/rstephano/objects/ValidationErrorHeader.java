@@ -1,4 +1,4 @@
-package br.com.rstephano.rest.objects;
+package br.com.rstephano.objects;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -23,85 +23,74 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriBuilder;
 
 import org.bson.types.ObjectId;
 import org.joda.time.DateTime;
 
+import javax.ws.rs.core.UriBuilder;
+
 import br.com.rstephano.MessageBundleUtil;
 import br.com.rstephano.bundles.LocaleSpecificMessageInterpolator;
-import br.com.rstephano.db.repositories.ContoRepository;
 import br.com.rstephano.objects.Conto;
+import br.com.rstephano.objects.Usuario;
 import br.com.rstephano.objects.ValidationErrorDetail;
 import br.com.rstephano.objects.ValidationErrorHeader;
-import br.com.rstephano.objects.wrappers.Contos;
+import br.com.rstephano.objects.wrappers.Usuarios;
+import br.com.rstephano.services.UsuarioService;
 
-@Path("v1/conto")
-public class ContosResourceV1 {
+@Path("v1/usuario")
+public class UsuarioResourceV1 {
 	
 	@Context
 	private HttpHeaders headers;
-	private ContoRepository contoRepository;
+	private UsuarioService service;
 
-	public ContosResourceV1() {
+	public UsuarioResourceV1() {
 		super();
-		contoRepository = new ContoRepository();
+		service = new UsuarioService();
 	}
 
 	@GET
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response listar() {
-		List<br.com.rstephano.db.entities.Conto> contosDb = contoRepository.listar();
-		List<Conto> contos = new ArrayList<Conto>();
-		for (int i = 0; i < contosDb.size(); i++) {
-			contos.add(new Conto(contosDb.get(i).getId().toHexString(), contosDb.get(i).getAutorId(), contosDb.get(i).getTitulo(), contosDb.get(i).getConto(), new DateTime(contosDb.get(i).getDataCadastro())));
-		}
-		return Response.status(Status.OK).entity(new Contos(contos)).build();
+		List<Usuario> usuarios = service.listar();
+		return Response.status(Status.OK).entity(new Usuarios(usuarios)).build();
 	}
 
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Response incluir(Conto conto) throws URISyntaxException {
-		validarConto(conto);
-		br.com.rstephano.db.entities.Conto contoDb = new br.com.rstephano.db.entities.Conto(null, conto.getAutorId(), conto.getTitulo(), conto.getConto(), conto.getDataCadastro().toDate());
-		contoRepository.inserir(contoDb);
-		conto.setId(contoDb.getId().toHexString());
-		conto.setDataCadastro(new DateTime(contoDb.getDataCadastro()));
-		URI location = UriBuilder.fromPath("conto/{id}").build(contoDb.getId().toString());
-		return Response.status(Status.CREATED).entity(conto).location(location).build();
+	public Response incluir(Usuario usuario) throws URISyntaxException {
+		validarUsuario(usuario);
+		service.inserir(usuario);
+		URI location = UriBuilder.fromPath("usuario/{id}").build(usuario.getId());
+		return Response.status(Status.CREATED).entity(usuario).location(location).build();
 	}
 
 	@GET
 	@Path("{id}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response recuperar(@PathParam("id") String id) throws URISyntaxException {
-		br.com.rstephano.db.entities.Conto contoDb = contoRepository.recuperar(new ObjectId(id));
-		if (contoDb != null) {
-			Conto conto = new Conto();
-			conto.setId(contoDb.getId().toHexString());
-			conto.setAutorId(contoDb.getAutorId());
-			conto.setTitulo(contoDb.getTitulo());
-			conto.setConto(contoDb.getConto());
-			conto.setDataCadastro(new DateTime(contoDb.getDataCadastro()));
-			return Response.status(Status.OK).entity(conto).build();
+		Usuario usuario = service.recuperar(id);
+		if (usuario != null) {
+			return Response.status(Status.OK).entity(usuario).build();
 		} else {
 			return Response.status(Status.NOT_FOUND).entity("").build();
 		}
 	}
 
 	@SuppressWarnings("unchecked")
-	private void validarConto(Conto conto) {
-		if (conto == null) {
-			Response response = Response.status(Status.BAD_REQUEST).entity(MessageBundleUtil.getMessage(MessageBundleUtil.Key.VALIDATIONS, headers, "objeto_requerido", new String[]{Conto.class.getSimpleName()})).build();
+	private void validarUsuario(Usuario usuario) {
+		if (usuario == null) {
+			Response response = Response.status(Status.BAD_REQUEST).entity(MessageBundleUtil.getMessage(MessageBundleUtil.Key.VALIDATIONS, headers, "objeto_requerido", new String[]{Usuario.class.getSimpleName()})).build();
 			throw new WebApplicationException(response);
 		} else {
 			Configuration<?> config = Validation.byDefaultProvider().configure();
 			config.messageInterpolator(new LocaleSpecificMessageInterpolator(Validation.byDefaultProvider().configure().getDefaultMessageInterpolator()));
 			ValidatorFactory factory = config.buildValidatorFactory();
 			Validator validator = factory.getValidator();
-			Set<ConstraintViolation<Conto>> constraintViolations = validator.validate(conto);
+			Set<ConstraintViolation<Usuario>> constraintViolations = validator.validate(usuario);
 			if (constraintViolations.size() > 0) {
 				ConstraintViolation<Conto>[] array = constraintViolations.toArray(new ConstraintViolation[constraintViolations.size()]);
 				ValidationErrorHeader validationErrorHeader = new ValidationErrorHeader();

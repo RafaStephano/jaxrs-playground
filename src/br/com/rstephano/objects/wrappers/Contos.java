@@ -1,4 +1,4 @@
-package br.com.rstephano.rest.objects;
+package br.com.rstephano.objects.wrappers;
 
 import java.util.List;
 
@@ -7,6 +7,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import br.com.rstephano.objects.Conto;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
