@@ -61,7 +61,7 @@ public class UsuarioResourceV1 {
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Response incluir(Usuario usuario) throws URISyntaxException {
+	public Response incluir(Usuario usuario) throws Exception {
 		validarUsuario(usuario);
 		service.inserir(usuario);
 		URI location = UriBuilder.fromPath("usuario/{id}").build(usuario.getId());

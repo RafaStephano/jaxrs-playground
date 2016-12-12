@@ -34,14 +34,16 @@ public class Usuario {
 	@JsonDeserialize(using = JsonDateTimeDeserializer.class)
 	@XmlJavaTypeAdapter(XmlDateTimeAdapter.class)
 	private DateTime dataCadastro;
+	private Funcao[] funcoes;
 
-	public Usuario(String id, String usuario, String email, String senha, DateTime dataCadastro) {
+	public Usuario(String id, String usuario, String email, String senha, DateTime dataCadastro, Funcao[] funcoes) {
 		super();
 		this.id = id;
 		this.usuario = usuario;
 		this.email = email;
 		this.senha = senha;
 		this.dataCadastro = dataCadastro;
+		this.funcoes = funcoes;
 	}
 
 	public Usuario() {
@@ -86,5 +88,13 @@ public class Usuario {
 
 	public void setDataCadastro(DateTime dataCadastro) {
 		this.dataCadastro = dataCadastro;
+	}
+
+	public Funcao[] getFuncoes() {
+		return funcoes;
+	}
+
+	public void setFuncoes(Funcao[] funcoes) {
+		this.funcoes = funcoes;
 	}
 }

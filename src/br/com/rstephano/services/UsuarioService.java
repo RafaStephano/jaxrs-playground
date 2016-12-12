@@ -3,14 +3,11 @@ package br.com.rstephano.services;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-
 import org.bson.types.ObjectId;
 import org.joda.time.DateTime;
 
 import br.com.rstephano.db.repositories.UsuarioRepository;
-import br.com.rstephano.objects.Conto;
+import br.com.rstephano.objects.Funcao;
 import br.com.rstephano.objects.Usuario;
 
 public class UsuarioService {
@@ -32,20 +29,38 @@ public class UsuarioService {
 					usuariosDb.get(i).getUsuario(),
 					usuariosDb.get(i).getEmail(),
 					usuariosDb.get(i).getSenha(),
-					new DateTime(usuariosDb.get(i).getDataCadastro())
+					new DateTime(usuariosDb.get(i).getDataCadastro()),
+					converteArrayFuncaoToFuncoes(usuariosDb.get(i).getFuncoes())
 				)
 			);
 		}
 		return usuarios;
 	}
 
-	public void inserir(Usuario usuario) {
+	public void inserir(Usuario usuario) throws Exception {
+		ArrayList<br.com.rstephano.db.entities.Funcao> listaFuncoes = new ArrayList<>();
+		if (usuario.getFuncoes() == null || usuario.getFuncoes().length == 0) {
+			listaFuncoes.add(br.com.rstephano.db.entities.Funcao.USUARIO);
+		} else {
+			// TODO Verificar se o usuário que envio a request está logado e se tem permissão para cadastrar o usuário informando a funcao
+			for (int i = 0; i < usuario.getFuncoes().length; i++) {
+				for (br.com.rstephano.db.entities.Funcao f : br.com.rstephano.db.entities.Funcao.values()) {
+					if (f.getFuncao().trim().equals(usuario.getFuncoes()[i].getFuncao())) {
+						listaFuncoes.add(f);
+					}
+				}
+			}
+			if (listaFuncoes.size() == 0) {
+				throw new Exception("Favor informar uma função válida");
+			}
+		}
 		br.com.rstephano.db.entities.Usuario usuarioDb = new br.com.rstephano.db.entities.Usuario(
 			null, 
 			usuario.getUsuario(), 
 			usuario.getEmail(), 
 			usuario.getSenha(), 
-			usuario.getDataCadastro().toDate()
+			usuario.getDataCadastro().toDate(),
+			listaFuncoes.toArray(new br.com.rstephano.db.entities.Funcao[listaFuncoes.size()])
 		);
 		repository.inserir(usuarioDb);
 		usuario.setId(usuarioDb.getId().toHexString());
@@ -65,5 +80,19 @@ public class UsuarioService {
 		} else {
 			return null;
 		}
+	}
+
+	private Funcao[] converteArrayFuncaoToFuncoes(br.com.rstephano.db.entities.Funcao[] funcoes) {
+		List<Funcao> funcoesRetorno = new ArrayList<Funcao>();
+		if (funcoes != null) {
+			for (int i = 0; i < funcoes.length; i++) {
+				for (Funcao f : Funcao.values()) {
+					if (f.getFuncao().trim().equals(funcoes[i].getFuncao())) {
+						funcoesRetorno.add(f);
+					}
+				}
+			}
+		}
+		return funcoesRetorno.toArray(new Funcao[funcoesRetorno.size()]);
 	}
 }
