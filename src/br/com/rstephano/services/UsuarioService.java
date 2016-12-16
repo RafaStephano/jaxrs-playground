@@ -42,7 +42,6 @@ public class UsuarioService {
 		if (usuario.getFuncoes() == null || usuario.getFuncoes().length == 0) {
 			listaFuncoes.add(br.com.rstephano.db.entities.Funcao.USUARIO);
 		} else {
-			// TODO Verificar se o usuário que envio a request está logado e se tem permissão para cadastrar o usuário informando a funcao
 			for (int i = 0; i < usuario.getFuncoes().length; i++) {
 				for (br.com.rstephano.db.entities.Funcao f : br.com.rstephano.db.entities.Funcao.values()) {
 					if (f.getFuncao().trim().equals(usuario.getFuncoes()[i].getFuncao())) {

@@ -6,12 +6,14 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import br.com.rstephano.constraints.Senha;
 import br.com.rstephano.rest.objects.adapters.JsonDateTimeDeserializer;
 import br.com.rstephano.rest.objects.adapters.JsonDateTimeSerializer;
 import br.com.rstephano.rest.objects.adapters.XmlDateTimeAdapter;
@@ -25,9 +27,11 @@ public class Usuario {
 	private String usuario;
 	@NotNull
 	@NotEmpty
+	@Email
 	private String email;
 	@NotNull
 	@NotEmpty
+	@Senha
 	private String senha;
 	@NotNull
 	@JsonSerialize(using = JsonDateTimeSerializer.class)
