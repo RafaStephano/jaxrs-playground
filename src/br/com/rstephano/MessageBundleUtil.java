@@ -11,8 +11,7 @@ import javax.ws.rs.core.HttpHeaders;
 public class MessageBundleUtil {
 
 	public enum Key {
-		VALIDATIONS("br.com.rstephano.bundles.validations"),
-		EXCEPTIONS("br.com.rstephano.resources.exceptions");
+		VALIDATIONS("br.com.rstephano.bundles.validations");
 
 		private String code;
 

@@ -1,4 +1,4 @@
-package br.com.rstephano.rest.exceptions;
+package br.com.rstephano.rest.filters;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
