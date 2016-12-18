@@ -17,7 +17,6 @@
 		</profile>
 	</profiles>
 	<build>
-		<sourceDirectory>src</sourceDirectory>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
@@ -41,12 +40,6 @@
 				<configuration>
 					<warSourceDirectory>WebContent</warSourceDirectory>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
-					<webResources>
-						<resource>
-							<directory>src\main\java\br\com\rstephano\resources</directory>
-							<targetPath>WEB-INF\classes</targetPath>
-						</resource>
-					</webResources>
 				</configuration>
 			</plugin>
 			<plugin>

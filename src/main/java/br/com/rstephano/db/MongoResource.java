@@ -38,7 +38,7 @@ public enum MongoResource {
 
 	private static Properties loadProperties() throws IOException {
 		Properties properties = new Properties();
-		InputStream inputStream = MongoResource.class.getResourceAsStream("/br/com/rstephano/resources/mongodb.properties");
+		InputStream inputStream = MongoResource.class.getResourceAsStream("/mongodb.properties");
 		if (inputStream == null) {
 			throw new FileNotFoundException("not loaded!");
 		}
