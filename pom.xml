@@ -43,7 +43,7 @@
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 					<webResources>
 						<resource>
-							<directory>src\br\com\rstephano\resources</directory>
+							<directory>src\main\java\br\com\rstephano\resources</directory>
 							<targetPath>WEB-INF\classes</targetPath>
 						</resource>
 					</webResources>
