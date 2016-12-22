@@ -14,9 +14,9 @@ public class Usuario {
 	private String email;
 	private String senha;
 	private Date dataCadastro;
-	private Funcao[] funcoes;
+	private String[] funcoes;
 
-	public Usuario(ObjectId id, String usuario, String email, String senha, Date dataCadastro, Funcao[] funcoes) {
+	public Usuario(ObjectId id, String usuario, String email, String senha, Date dataCadastro, String[] funcoes) {
 		super();
 		this.id = id;
 		this.usuario = usuario;
@@ -70,11 +70,11 @@ public class Usuario {
 		this.dataCadastro = dataCadastro;
 	}
 
-	public Funcao[] getFuncoes() {
+	public String[] getFuncoes() {
 		return funcoes;
 	}
 
-	public void setFuncoes(Funcao[] funcoes) {
+	public void setFuncoes(String[] funcoes) {
 		this.funcoes = funcoes;
 	}
 

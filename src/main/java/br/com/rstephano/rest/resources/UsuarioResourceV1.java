@@ -47,7 +47,7 @@ public class UsuarioResourceV1 {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response incluir(@Valid Usuario usuario) throws Exception {
 		service.inserir(usuario);
-		URI location = UriBuilder.fromPath("usuario/{id}").build(usuario.getId());
+		URI location = UriBuilder.fromPath("v1/usuario/{id}").build(usuario.getId());
 		return Response.status(Status.CREATED).entity(usuario).location(location).build();
 	}
 

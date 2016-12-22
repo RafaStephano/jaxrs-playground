@@ -1,8 +1,12 @@
 package br.com.rstephano.objects;
 
+import java.util.List;
+
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
@@ -13,6 +17,7 @@ import org.joda.time.DateTime;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import br.com.rstephano.constraints.EachFuncao;
 import br.com.rstephano.constraints.Senha;
 import br.com.rstephano.rest.objects.adapters.JsonDateTimeDeserializer;
 import br.com.rstephano.rest.objects.adapters.JsonDateTimeSerializer;
@@ -38,9 +43,12 @@ public class Usuario {
 	@JsonDeserialize(using = JsonDateTimeDeserializer.class)
 	@XmlJavaTypeAdapter(XmlDateTimeAdapter.class)
 	private DateTime dataCadastro;
-	private Funcao[] funcoes;
+	@XmlElementWrapper(name = "funcoes")
+	@XmlElement(name = "funcao")
+	@EachFuncao
+	private List<String> funcoes;
 
-	public Usuario(String id, String usuario, String email, String senha, DateTime dataCadastro, Funcao[] funcoes) {
+	public Usuario(String id, String usuario, String email, String senha, DateTime dataCadastro, List<String> funcoes) {
 		super();
 		this.id = id;
 		this.usuario = usuario;
@@ -94,11 +102,11 @@ public class Usuario {
 		this.dataCadastro = dataCadastro;
 	}
 
-	public Funcao[] getFuncoes() {
+	public List<String> getFuncoes() {
 		return funcoes;
 	}
 
-	public void setFuncoes(Funcao[] funcoes) {
+	public void setFuncoes(List<String> funcoes) {
 		this.funcoes = funcoes;
 	}
 }

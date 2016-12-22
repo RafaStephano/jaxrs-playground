@@ -9,8 +9,7 @@ import javax.validation.ConstraintValidatorContext;
 import br.com.rstephano.constraints.Senha;
 
 public class SenhaValidator implements ConstraintValidator<Senha, String> {
-	// TODO Criar padrão
-	private Pattern pattern = Pattern.compile("");
+	private Pattern pattern = Pattern.compile("^.{6,}$");
 
 	@Override
 	public void initialize(Senha constraintAnnotation) {

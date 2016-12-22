@@ -3,11 +3,13 @@ package br.com.rstephano.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.bson.types.ObjectId;
 import org.joda.time.DateTime;
 
 import br.com.rstephano.db.repositories.UsuarioRepository;
-import br.com.rstephano.objects.Funcao;
+import br.com.rstephano.Funcao;
 import br.com.rstephano.objects.Usuario;
 
 public class UsuarioService {
@@ -37,20 +39,13 @@ public class UsuarioService {
 		return usuarios;
 	}
 
-	public void inserir(Usuario usuario) throws Exception {
-		ArrayList<br.com.rstephano.db.entities.Funcao> listaFuncoes = new ArrayList<>();
-		if (usuario.getFuncoes() == null || usuario.getFuncoes().length == 0) {
-			listaFuncoes.add(br.com.rstephano.db.entities.Funcao.USUARIO);
+	public void inserir(@Valid Usuario usuario) throws Exception {
+		ArrayList<String> listaFuncoes = new ArrayList<>();
+		if (usuario.getFuncoes() == null || usuario.getFuncoes().size() == 0) {
+			listaFuncoes.add(Funcao.USUARIO);
 		} else {
-			for (int i = 0; i < usuario.getFuncoes().length; i++) {
-				for (br.com.rstephano.db.entities.Funcao f : br.com.rstephano.db.entities.Funcao.values()) {
-					if (f.getFuncao().trim().equals(usuario.getFuncoes()[i].getFuncao())) {
-						listaFuncoes.add(f);
-					}
-				}
-			}
-			if (listaFuncoes.size() == 0) {
-				throw new Exception("Favor informar uma função válida");
+			for (int i = 0; i < usuario.getFuncoes().size(); i++) {
+				listaFuncoes.add(usuario.getFuncoes().get(i));
 			}
 		}
 		br.com.rstephano.db.entities.Usuario usuarioDb = new br.com.rstephano.db.entities.Usuario(
@@ -59,7 +54,7 @@ public class UsuarioService {
 			usuario.getEmail(), 
 			usuario.getSenha(), 
 			usuario.getDataCadastro().toDate(),
-			listaFuncoes.toArray(new br.com.rstephano.db.entities.Funcao[listaFuncoes.size()])
+			listaFuncoes.toArray(new String[listaFuncoes.size()])
 		);
 		repository.inserir(usuarioDb);
 		usuario.setId(usuarioDb.getId().toHexString());
@@ -69,29 +64,27 @@ public class UsuarioService {
 	public Usuario recuperar(String id) {
 		br.com.rstephano.db.entities.Usuario usuarioDb = repository.recuperar(new ObjectId(id));
 		if (usuarioDb != null) {
-			Usuario usuario = new Usuario();
-			usuario.setId(usuarioDb.getId().toHexString());
-			usuario.setUsuario(usuarioDb.getUsuario());
-			usuario.setEmail(usuarioDb.getEmail());
-			usuario.setSenha(usuarioDb.getSenha());
-			usuario.setDataCadastro(new DateTime(usuarioDb.getDataCadastro()));
+			Usuario usuario = new Usuario(
+				usuarioDb.getId().toHexString(),
+				usuarioDb.getUsuario(),
+				usuarioDb.getEmail(),
+				usuarioDb.getSenha(),
+				new DateTime(usuarioDb.getDataCadastro()),
+				converteArrayFuncaoToFuncoes(usuarioDb.getFuncoes())
+			);
 			return usuario;
 		} else {
 			return null;
 		}
 	}
 
-	private Funcao[] converteArrayFuncaoToFuncoes(br.com.rstephano.db.entities.Funcao[] funcoes) {
-		List<Funcao> funcoesRetorno = new ArrayList<Funcao>();
+	private List<String> converteArrayFuncaoToFuncoes(String[] funcoes) {
+		List<String> funcoesRetorno = new ArrayList<String>();
 		if (funcoes != null) {
 			for (int i = 0; i < funcoes.length; i++) {
-				for (Funcao f : Funcao.values()) {
-					if (f.getFuncao().trim().equals(funcoes[i].getFuncao())) {
-						funcoesRetorno.add(f);
-					}
-				}
+				funcoesRetorno.add(funcoes[i]);
 			}
 		}
-		return funcoesRetorno.toArray(new Funcao[funcoesRetorno.size()]);
+		return funcoesRetorno;
 	}
 }
