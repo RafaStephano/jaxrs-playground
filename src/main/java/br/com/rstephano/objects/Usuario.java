@@ -19,9 +19,9 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import br.com.rstephano.constraints.EachFuncao;
 import br.com.rstephano.constraints.Senha;
-import br.com.rstephano.rest.objects.adapters.JsonDateTimeDeserializer;
-import br.com.rstephano.rest.objects.adapters.JsonDateTimeSerializer;
-import br.com.rstephano.rest.objects.adapters.XmlDateTimeAdapter;
+import br.com.rstephano.objects.adapters.JsonDateTimeDeserializer;
+import br.com.rstephano.objects.adapters.JsonDateTimeSerializer;
+import br.com.rstephano.objects.adapters.XmlDateTimeAdapter;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)

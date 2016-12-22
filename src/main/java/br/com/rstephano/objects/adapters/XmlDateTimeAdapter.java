@@ -1,4 +1,4 @@
-package br.com.rstephano.rest.objects.adapters;
+package br.com.rstephano.objects.adapters;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
